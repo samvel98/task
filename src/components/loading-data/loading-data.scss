@@ -1,0 +1,26 @@
+.loading-component {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+  height: 40px;
+  .loading {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    box-shadow: 0 -3em rgba(111, 111, 111, 1),
+      2.25em -2.25em rgba(111, 111, 111, 0.875), 3em 0 rgba(111, 111, 111, 0.75),
+      2.25em 2.25em rgba(111, 111, 111, 0.625), 0 3em rgba(111, 111, 111, 0.5),
+      -2.25em 2.25em rgba(111, 111, 111, 0.375),
+      -3em 0 rgba(111, 111, 111, 0.25),
+      -2.25em -2.25em rgba(111, 111, 111, 0.125);
+    animation: spin 1.2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(-360deg);
+  }
+}

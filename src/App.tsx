@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+import { BrowserRouter as Router, useRoutes, Link } from "react-router-dom";
+// import { selectUsers, setUsers } from "./store/users.slice";
+import { CatImage, Navbar } from "./components";
+
+import { useGetCategoriesQuery } from "./features/api/apiSlice";
+import "./app.scss";
+
+const App = () => {
+  const {
+    data: categories,
+    isLoading,
+    isSuccess,
+  } = useGetCategoriesQuery(null);
+
+  const categoriesRoutes =
+    isSuccess && categories
+      ? [
+          {
+            path: "/",
+            element: <CatImage category={{ id: 0, name: "No Category" }} />,
+          },
+          ...categories.map((category: ICategory) => ({
+            path: category.name,
+            element: <CatImage category={category} />,
+          })),
+        ]
+      : [];
+
+  let routes = useRoutes(categoriesRoutes);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isLoading ? (
+        <div>lodaing</div>
+      ) : (
+        <>
+          <Navbar items={categories} />
+
+          {routes}
+        </>
+      )}
     </div>
   );
-}
+};
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+};
+
+export default AppWrapper;
